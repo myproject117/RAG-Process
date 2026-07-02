@@ -1,0 +1,56 @@
+Steps
+-----
+-> 1st, Create a backend API AI application
+-> 2nd, connect nodejs app to the bakend api app to reflect response in event
+-> 3rd, Run a local vectorstore using Docker container for storage
+-> 4th, Run streamlit app integrated with inngest application
+
+
+
+
+## Command to run main application ###
+-> uv run uvicorn main:app
+
+
+
+## Command to integrate inngest cli dev application with main app server ##
+npx inngest-cli@latest dev -u http://127.0.0.1:8000/api/inngest --no-discovery
+
+## npx => the nodejs package manager
+## inngest-cli@latest dev -> Inngest dev server for response display
+## http://127.0.0.1:8000/api/inngest -> main app backend host and route path
+
+
+
+Run Qdrant vectorstore Docker image on local for interacting vector storage operation
+-------------------------------------------------------------------------------------
+docker run -d --name qdrant -p 6333:6333 -v "$(pwd)/qdrant_storage:/qdrant/storage" qdrant/qdrant
+
+docker run -d --name qdrant -p 6333:6333 -p 6334:6334 -v "$(pwd)/qdrant_storage:/qdrant/storage" qdrant/qdrant
+
+worked => docker run -d -p 6333:6333 -p 6334:6334 qdrant/qdrant
+
+
+
+## Running the streamlit UI app for inngest and user query operation
+--------------------------------------------------------------------
+uv run streamlit run streamlit_app.py (For UI to upload and ask)
+
+
+
+
+
+
+
+
+
+
+
+{
+  "answer": "LangChain is a framework for building LLM-powered applications, providing abstractions for prompts, models, tools, memory, retrievers, vector stores, agents, and chains. LangGraph is an orchestration framework designed for stateful, multi-step AI workflows, representing workflows as nodes and edges in a graph, making it ideal for Agentic AI systems.",
+  "num_contexts": 4,
+  "sources": [
+    "D:\\Studies\\RAG Study\\Langchain\\0-DataIngestParsing\\data\\pdf_files\\test_sample_file.pdf",
+    "C://Users//avina//Downloads//LangChain_LangGraph_Sample_Documentation.pdf"
+  ]
+}
